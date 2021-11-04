@@ -1,4 +1,5 @@
 import './sass/main.scss';
+import * as _ from 'lodash';
 import listCountry from './templates/list-country.hbs';
 import countryCard from './templates/coutry.hbs';
 
@@ -7,15 +8,12 @@ const refs = {
   searchForm: document.querySelector('.js-search-form'),
 };
 
-refs.searchForm.addEventListener('input', onSearch);
-// refs.searchForm.addEventListener('input', _.debounce(onSearch, 500));
+refs.searchForm.addEventListener('input', _.debounce(onSearch, 500));
 
 function onSearch(e) {
   e.preventDefault();
-
-  const form = e.currentTarget;
-  const searchQuery = form.elements.query.value;
-  fetchCountry(searchQuery).then(renderCard).catch(onFetchError);
+  const searchQuery = e.target.value;
+  return fetchCountry(searchQuery).then(renderCard).catch(onFetchError);
 }
 
 function fetchCountry(value) {
@@ -27,18 +25,14 @@ function fetchCountry(value) {
 function renderCard(country) {
   let markup;
   console.log(country);
-  if (country.length < 1 || country.length > 10) {
+  if (country.length === 1) {
+    markup = countryCard(country[0]);
+  } else if (country.length < 11) {
+    markup = listCountry(country);
+  } else {
     refs.container.innerHTML = '';
     return console.log('уточните поиск');
-  } else if (country.length === 1) {
-    markup = countryCard(country[0]);
-  } else {
-    markup = listCountry(country);
   }
 
   refs.container.innerHTML = markup;
-}
-
-function onFetchError() {
-  alert('Упс, чтото пошло не так!');
 }
