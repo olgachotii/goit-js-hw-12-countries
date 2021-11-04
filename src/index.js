@@ -1,7 +1,7 @@
 import './sass/main.scss';
 
 import * as _ from 'lodash';
-import fetchCountries from './js/fetchCountries';
+import fetchCountries from './js/fetchCountries.js';
 import listCountry from './templates/list-country.hbs';
 import countryCard from './templates/coutry.hbs';
 
