@@ -1,7 +1,14 @@
 import './sass/main.scss';
+
 import * as _ from 'lodash';
+import fetchCountries from './js/fetchCountries';
 import listCountry from './templates/list-country.hbs';
 import countryCard from './templates/coutry.hbs';
+
+import { error } from '@pnotify/core';
+import '@pnotify/core/dist/PNotify.css';
+import '@pnotify/core/dist/BrightTheme.css';
+import '@pnotify/confirm/dist/PNotifyConfirm.css';
 
 const refs = {
   container: document.querySelector('.js-container'),
@@ -13,13 +20,7 @@ refs.searchForm.addEventListener('input', _.debounce(onSearch, 500));
 function onSearch(e) {
   e.preventDefault();
   const searchQuery = e.target.value;
-  return fetchCountry(searchQuery).then(renderCard).catch(onFetchError);
-}
-
-function fetchCountry(value) {
-  return fetch(`https://restcountries.com/v2/name/${value}`).then(response => {
-    return response.json();
-  });
+  return fetchCountries(searchQuery).then(renderCard);
 }
 
 function renderCard(country) {
@@ -30,9 +31,17 @@ function renderCard(country) {
   } else if (country.length < 11) {
     markup = listCountry(country);
   } else {
-    refs.container.innerHTML = '';
-    return console.log('уточните поиск');
+    pnotify();
+    return (refs.container.innerHTML = '');
   }
 
-  refs.container.innerHTML = markup;
+  return (refs.container.innerHTML = markup);
+}
+
+function pnotify() {
+  error({
+    text: 'Too many matches found. Please enter a more specific query!',
+    maxTextHeight: null,
+    delay: 3000,
+  });
 }
