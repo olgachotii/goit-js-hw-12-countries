@@ -16,3 +16,11 @@ li {
   margin: 0 auto;
   padding: 10px;
 }
+
+li {
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: rgba(100, 156, 221, 0.349);
+}

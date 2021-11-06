@@ -13,14 +13,29 @@ import '@pnotify/confirm/dist/PNotifyConfirm.css';
 const refs = {
   container: document.querySelector('.js-container'),
   searchForm: document.querySelector('.js-search-form'),
+  listCard: document.querySelector('.list'),
+  form: document.querySelector('.form-control'),
 };
 
 refs.searchForm.addEventListener('input', _.debounce(onSearch, 500));
+refs.container.addEventListener('click', onClickList);
+
+function onClickList(e) {
+  console.dir(e.target.nodeName);
+  if (e.target.nodeName === 'LI') {
+    const searchQuery = e.target.textContent;
+    refs.form.value = searchQuery;
+    fetchCountries(searchQuery).then(renderCard);
+    // refs.form.value = '';
+  }
+}
 
 function onSearch(e) {
   e.preventDefault();
   const searchQuery = e.target.value;
-  return fetchCountries(searchQuery).then(renderCard);
+  if (searchQuery.length > 0) {
+    return fetchCountries(searchQuery).then(renderCard);
+  }
 }
 
 function renderCard(country) {
