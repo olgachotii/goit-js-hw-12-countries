@@ -1,6 +1,9 @@
 body {
   font-size: 25px;
 }
+// ul {
+//   list-style: none;
+// }
 
 li {
   margin-left: 20px;
@@ -17,10 +20,12 @@ li {
   padding: 10px;
 }
 
-li {
+a {
   cursor: pointer;
+  color: currentColor;
 }
 
-li:hover {
-  background-color: rgba(100, 156, 221, 0.349);
+a:hover,
+a:focus {
+  text-decoration: none;
 }

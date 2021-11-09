@@ -22,7 +22,7 @@ refs.container.addEventListener('click', onClickList);
 
 function onClickList(e) {
   console.dir(e.target.nodeName);
-  if (e.target.nodeName === 'LI') {
+  if (e.target.nodeName === 'A') {
     const searchQuery = e.target.textContent;
     refs.form.value = searchQuery;
     fetchCountries(searchQuery).then(renderCard);
